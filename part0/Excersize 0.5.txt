@@ -1,18 +1,19 @@
-title Excersize 0.6 - Single Page App Adding a note
+title Excersize 0.5 - Single Page App Load
+
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+Server-->Browser: HTML Code
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+Server-->Browser: main.css
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+Server-->Browser: spa.js
 
 note over Browser:
-User enters data in the 
-text box and presses save
+Browser begins executing code
 end note
 
-Browser->Server: HTTP POST /exampleapp/new_note_spa {"content": "new note 2", "date":"2022-08-01"}
-note over Server:
-Server processes note and adds it to data.json
-Responds with status 201 created
-end note
-Server-->Browser: {"message": "note created"}
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+Server-->Browser: JSON Notes Array [{"content": "hello", "date":"2022-0801"}, ...]
 
 note over Browser:
-Browser executes code to update page
-with new notes
+Browser process notes and displays them
 end note

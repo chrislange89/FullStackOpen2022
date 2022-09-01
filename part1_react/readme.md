@@ -2,6 +2,8 @@
 
 ## Introduction to React
 
+Excersizes 1.1-1.2: /courseinfo/
+
 ## JavaScript
 
 ## Component state, event handlers

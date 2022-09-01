@@ -1,0 +1,33 @@
+Excersize 0.4
+
+title Excersize 0.4
+
+note over browser:
+User enters their note into the text box
+and presses Save
+end note
+
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+note over server: Server adds received data to the stored data
+server-->browser: server returns status 302
+note over browser: Page refreshes
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+server-->browser: HTML CODE
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+server-->browser: main.css
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.js
+server-->browser: main.js
+
+note over browser: 
+browser begins executing javascript code 
+that requests data from the server
+end note
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server-->browser: Returns {[{content:"ahaa!","date":"2022-08-21"}, ...]}
+
+note over browser:
+browser executes the code that will
+display the notes on the page
+end note

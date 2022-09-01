@@ -1,11 +1,40 @@
 import { useState } from 'react';
 
-const Feedback = ({ type, score }) => {
+const StatisticLine = ({ text, value }) => {
   return (
-    <p>
-      {type} {score}
-    </p>
+    <tr>
+      <td>{text}</td>
+      <td>{value}</td>
+    </tr>
   );
+};
+
+const Button = ({text, handleClick}) => {
+  return (
+    <button onClick={handleClick}>{text}</button>
+  )
+}
+
+const Statistics = ({ good, neutral, bad }) => {
+  const total = good + neutral + bad;
+  const noFeedback = <p>No Feedback Given</p>;
+  const haveFeedback = (
+    <div>
+      <h2>statistics</h2>
+      <table>
+        <tbody>
+          <StatisticLine text='good' value={good} />
+          <StatisticLine text='neutral' value={neutral} />
+          <StatisticLine text='bad' value={bad} />
+          <StatisticLine text='total' value={total} />
+          <StatisticLine text='average' value={Math.round(total / 3)} />
+          <StatisticLine text='positive' value={`${Math.round((good / total) * 100)}%`} />
+        </tbody>
+      </table>
+    </div>
+  );
+
+  return total === 0 ? noFeedback : haveFeedback;
 };
 
 const App = () => {
@@ -35,14 +64,11 @@ const App = () => {
     <div>
       <h1>give feedback</h1>
       <form>
-        <button onClick={handleClick}>good</button>
-        <button onClick={handleClick}>neutral</button>
-        <button onClick={handleClick}>bad</button>
+        <Button text="good" handleClick={handleClick} />
+        <Button text="neutral" handleClick={handleClick} />
+        <Button text="bad" handleClick={handleClick} />
       </form>
-      <h2>statistics</h2>
-      <Feedback type='good' score={good} />
-      <Feedback type='neutral' score={neutral} />
-      <Feedback type='bad' score={bad} />
+      <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
   );
 };

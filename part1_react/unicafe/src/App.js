@@ -63,11 +63,9 @@ const App = () => {
   return (
     <div>
       <h1>give feedback</h1>
-      <form>
-        <Button text="good" handleClick={handleClick} />
-        <Button text="neutral" handleClick={handleClick} />
-        <Button text="bad" handleClick={handleClick} />
-      </form>
+      <Button text="good" handleClick={handleClick} />
+      <Button text="neutral" handleClick={handleClick} />
+      <Button text="bad" handleClick={handleClick} />
       <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
   );

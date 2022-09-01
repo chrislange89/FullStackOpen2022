@@ -1,0 +1,18 @@
+title Excersize 0.6 - Single Page App Adding a note
+
+note over Browser:
+User enters data in the 
+text box and presses save
+end note
+
+Browser->Server: HTTP POST /exampleapp/new_note_spa {"content": "new note 2", "date":"2022-08-01"}
+note over Server:
+Server processes note and adds it to data.json
+Responds with status 201 created
+end note
+Server-->Browser: {"message": "note created"}
+
+note over Browser:
+Browser executes code to update page
+with new notes
+end note

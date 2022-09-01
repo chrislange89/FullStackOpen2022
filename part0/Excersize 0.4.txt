@@ -1,5 +1,3 @@
-Excersize 0.4
-
 title Excersize 0.4
 
 note over browser:

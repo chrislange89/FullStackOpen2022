@@ -1,4 +1,8 @@
 import { useState } from 'react';
+import { v4 } from 'uuid';
+import Filter from './components/Filter';
+import PersonForm from './components/PersonForm';
+import Persons from './components/Persons';
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -26,48 +30,56 @@ const App = () => {
   function handleAddNewName(event) {
     event.preventDefault();
     const nameExists = persons.find((person) => person.name === newName);
-    if (!nameExists) {
-      let newPerson = {
-        name: newName,
-      };
-      setPersons(persons.concat(newPerson));
-      setNewName('');
-      return;
-    }
 
-    alert(`Cannot add ${newName}, this person already exists!`);
+    if (nameExists) {
+      alert(`Cannot add ${newName}, this person already exists!`);
+      return;
+    };
+
+    if (newName === '') {
+      alert('You must enter a name!');
+      return;
+    };
+
+    if (newNumber === '') {
+      alert('You must enter a number!');
+      return;
+    };
+
+    let newPerson = {
+        name: newName,
+        number: newNumber,
+        id: v4(),
+    };
+
+    setPersons(persons.concat(newPerson));
+    setNewName('');
+    setNewNumber('');
   }
 
-  const peopleToShow = persons.filter((person) => person.name.includes(searchValue));
+  const peopleToShow = persons.filter((person) =>
+    person.name.toLowerCase().includes(searchValue.toLowerCase())
+  );
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>filter shown with <input value={searchValue} onChange={handleSearchChange}/></div>
-      <h2>add a new</h2>
-      <form>
-        <div>
-          name: <input value={newName} onChange={handleNameChange} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNumberChange} />
-        </div>
-        <div>
-          <button type='submit' onClick={handleAddNewName}>
-            add
-          </button>
-        </div>
-      </form>
+      <Filter
+        searchValue={searchValue}
+        handleSearchChange={handleSearchChange}
+      />
+      <h3>add a new</h3>
+      <PersonForm
+        newName={newName}
+        handleNameChange={handleNameChange}
+        newNumber={newNumber}
+        handleNumberChange={handleNumberChange}
+        handleAddNewName={handleAddNewName}
+      />
       <h2>Contacts</h2>
-      <ul>
-        {peopleToShow.map((person) => (
-          <li key={person.id}>
-            {person.name} - {person.number}
-          </li>
-        ))}
-      </ul>
+      <Persons peopleToShow={peopleToShow} />
     </div>
-  );
-};
+  )
+}
 
 export default App;

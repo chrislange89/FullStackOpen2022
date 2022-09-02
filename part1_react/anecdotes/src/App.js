@@ -10,12 +10,44 @@ const App = () => {
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.'
   ]
-   
-  const [selected, setSelected] = useState(0)
+
+  const [votes, setVotes] = useState(Array.from(anecdotes.map(item => 0)));
+  const [selected, setSelected] = useState(0);
+
+  const handleNext = (event) => {
+    event.preventDefault();
+    setSelected((selected === anecdotes.length - 1) ? 0 : selected + 1);
+  }
+
+  const handleRandom = (event) => {
+    event.preventDefault();
+    setSelected(Math.floor(Math.random() * anecdotes.length));
+  }
+
+  const handleVote = (event) => {
+    event.preventDefault();
+    let newVotes = [...votes];
+    newVotes[selected] += 1;
+    setVotes(newVotes);
+  }
 
   return (
     <div>
-      {anecdotes[selected]}
+      <h1>Anecdote of the day</h1>
+      <p>
+        {anecdotes[selected]}
+      </p>
+      <p>
+        has {votes[selected]} votes
+      </p>
+      <button onClick={handleVote}>Vote</button>
+      <button onClick={handleNext}>Next anecdote</button>
+      <button onClick={handleRandom}>Random anecdote</button>
+      <h2>Anecdote with the most votes</h2>
+      <p>
+      {anecdotes[votes.indexOf(Math.max.apply(null, votes))]}
+      </p>
+      <p>has {Math.max.apply(null, votes)} votes</p>
     </div>
   )
 }

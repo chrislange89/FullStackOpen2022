@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { v4 } from 'uuid';
-import axios from 'axios';
 
 import personsService from './services/personsService';
 import Filter from './components/Filter';
@@ -14,7 +13,7 @@ function App() {
   const [newNumber, setNewNumber] = useState('');
 
   const loadPeople = () => {
-    axios.get('http://localhost:3001/persons').then((res) => {
+    personsService.getAll().then((res) => {
       const loadedPersons = res.data;
       setPersons(loadedPersons);
     });

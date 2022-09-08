@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { nanoid }  from 'nanoid';
 import React, { useState, useEffect } from 'react';
 import Country from './components/Country';
 import ErrorMessage from './components/ErrorMessage';
@@ -44,7 +45,7 @@ function App() {
       <input onChange={handleSearchChange} value={searchValue} />
       <ErrorMessage message={errorMessage} />
       {displayCountries.map((country) => (
-        <Country key={country.name.common} country={country} />
+        <Country key={nanoid()} country={country} />
       ))}
     </div>
   );

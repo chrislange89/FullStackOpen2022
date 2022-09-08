@@ -1,9 +1,21 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+
+// instead of process.env.*, use import.meta.env.*
+const api_key = import.meta.env.VITE_REACT_APP_API_KEY;
 
 function Country({ country }) {
   const [visible, setVisible] = useState(false);
+  const [weather, setWeather] = useState(null);
 
-  console.log(country);
+  function getWeatherDetails() {
+    const API_STRING = `https://api.openweathermap.org/data/2.5/weather?lat=${country.latlng[0]}&lon=${country.latlng[1]}&units=metric&appid=${api_key}`;
+    console.log(API_STRING);
+    const weather_details = axios.get(API_STRING).then((res) => {
+      console.log(res.data);
+      setWeather(res.data);
+    });
+  }
 
   function handleSetVisible() {
     setVisible(!visible);
@@ -35,10 +47,27 @@ function Country({ country }) {
             );
           })}
         </ul>
-        <img style={{ border: "1px solid gray" }}height="100px" src={country.flags.png} />
+        <img
+          style={{ border: '1px solid gray' }}
+          height='100px'
+          src={country.flags.png}
+        />
+        <h3>Weather</h3>
+        <div>
+          {
+          weather === null ? 
+          '...loading weather' :
+          <div>
+            <p>Tempature {weather.main.temp}º Celcius</p>
+            <p>Wind {JSON.stringify(weather.wind.speed)} m/s</p>
+          </div>
+          }
+        </div>
       </div>
     </div>
   );
+
+  useEffect(getWeatherDetails, [])
 
   return (
     <div>

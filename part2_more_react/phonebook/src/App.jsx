@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { v4 } from 'uuid';
 import axios from 'axios';
-import personsService from './services/personsService';
 
+import personsService from './services/personsService';
 import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 import Persons from './components/Persons';

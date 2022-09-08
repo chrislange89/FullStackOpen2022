@@ -22,6 +22,6 @@ module.exports = {
     'react/prop-types': 'off',
     'max-len': ['warn', 150],
     'no-alert': 'off',
-    // 'react/jsx-no-bind': 'off',
+    'no-console': 'off',
   },
 };

@@ -44,12 +44,11 @@ function App() {
 
   const handleAddNewName = (event) => {
     event.preventDefault();
-    const nameExists = persons.find((person) => person.name.toLowerCase() === newName.toLowerCase());
+    const existingPerson = persons.find((person) => person.name.toLowerCase() === newName.toLowerCase());
 
-    if (nameExists) {
+    if (existingPerson) {
       const replaceNumber = window.confirm(`${newName} already exists, replace the old number with a new one?`);
       if (replaceNumber && newNumber !== '' && newNumber !== null) {
-        const existingPerson = persons.find((person) => person.name.toLowerCase() === newName.toLowerCase());
         const newPerson = { ...existingPerson, number: newNumber };
         personsService.update(existingPerson.id, newPerson);
         clearAddFields();

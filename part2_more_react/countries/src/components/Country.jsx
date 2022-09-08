@@ -10,9 +10,9 @@ function Country({ country }) {
 
   function getWeatherDetails() {
     const API_STRING = `https://api.openweathermap.org/data/2.5/weather?lat=${country.latlng[0]}&lon=${country.latlng[1]}&units=metric&appid=${api_key}`;
-    console.log(API_STRING);
+    // console.log(API_STRING);
     const weather_details = axios.get(API_STRING).then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
       setWeather(res.data);
     });
   }

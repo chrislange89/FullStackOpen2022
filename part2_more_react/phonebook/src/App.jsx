@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { v4 } from 'uuid';
+import { nanoid } from 'nanoid';
 
 import personsService from './services/personsService';
 import Filter from './components/Filter';
@@ -69,7 +69,7 @@ function App() {
     const newPerson = {
       name: newName,
       number: newNumber,
-      id: v4(),
+      id: nanoid(),
     };
 
     personsService.create(newPerson)

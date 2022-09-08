@@ -59,14 +59,17 @@ function App() {
 
   const handleDelete = (event) => {
     const personToDelete = persons.find((person) => person.id === event.target.id);
-    personsService.deletePerson(personToDelete.id).then((res) => {
-      console.log(res);
-      setPersons(persons.filter((person) => person.id !== personToDelete.id));
-      createMessage(`${res.status}: Successfully deleted the person with the name '${personToDelete.name}' and id '${personToDelete.id}'`);
-    }).catch((err) => {
-      createError(`Error ${err.code} ${err.response.status} - The person with the name ${personToDelete.name} was already deleted`);
-      setPersons(persons.filter((person) => person.id !== personToDelete.id));
-    });
+    const confirmDelete = window.confirm(`Are you sure you want to delete ${personToDelete.name}?`);
+    if (confirmDelete) {
+      personsService.deletePerson(personToDelete.id).then((res) => {
+        console.log(res);
+        setPersons(persons.filter((person) => person.id !== personToDelete.id));
+        createMessage(`${res.status}: Successfully deleted the person with the name '${personToDelete.name}' and id '${personToDelete.id}'`);
+      }).catch((err) => {
+        createError(`Error ${err.code} ${err.response.status} - The person with the name ${personToDelete.name} was already deleted`);
+        setPersons(persons.filter((person) => person.id !== personToDelete.id));
+      });
+    }
   };
 
   const handleAddNewName = (event) => {

@@ -58,6 +58,9 @@ function App() {
     personsService.create(newPerson)
       .then((res) => {
         setPersons(persons.concat(res.data));
+      })
+      .catch((err) => {
+        console.error(err);
       });
 
     setNewName('');

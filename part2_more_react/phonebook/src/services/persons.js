@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 const url = 'https://localhost:3001/persons';
 
 function getAll() {
@@ -6,11 +7,11 @@ function getAll() {
 }
 
 function create(newPerson) {
-  return axios.post(url, newPerson)
+  return axios.post(url, newPerson);
 }
 
 function update(id, newPerson) {
-  return axios.put(`${url}/${id}`, newPerson)
+  return axios.put(`${url}/${id}`, newPerson);
 }
 
 export default { getAll, create, update };

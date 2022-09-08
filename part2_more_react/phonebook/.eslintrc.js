@@ -21,5 +21,7 @@ module.exports = {
     'linebreak-style': ['off', 'windows'],
     'react/prop-types': 'off',
     'max-len': ['warn', 150],
+    'no-alert': 'off',
+    // 'react/jsx-no-bind': 'off',
   },
 };

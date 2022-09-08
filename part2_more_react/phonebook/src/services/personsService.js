@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const url = 'https://localhost:3001/persons';
+const url = 'http://localhost:3001/persons';
 
 function getAll() {
   return axios.get(url);
@@ -14,4 +14,13 @@ function update(id, newPerson) {
   return axios.put(`${url}/${id}`, newPerson);
 }
 
-export default { getAll, create, update };
+function deletePerson(id) {
+  return axios.delete(`${url}/${id}`);
+}
+
+export default {
+  getAll,
+  create,
+  update,
+  deletePerson,
+};

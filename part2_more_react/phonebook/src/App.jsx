@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { v4 } from 'uuid';
 import axios from 'axios';
+import personsService from './services/personsService';
 
 import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
@@ -22,6 +23,11 @@ function App() {
 
   const handleNumberChange = (event) => {
     setNewNumber(event.target.value);
+  };
+
+  const handleDelete = (event) => {
+    setPersons(persons.filter((person) => person.id !== event.target.id));
+    personsService.deletePerson(event.target.id);
   };
 
   const handleAddNewName = (event) => {
@@ -49,9 +55,8 @@ function App() {
       id: v4(),
     };
 
-    axios.post('http://localhost:3001/persons', newPerson)
+    personsService.create(newPerson)
       .then((res) => {
-        // console.log(res);
         setPersons(persons.concat(res.data));
       });
 
@@ -84,7 +89,10 @@ function App() {
         handleAddNewName={handleAddNewName}
       />
       <h2>Contacts</h2>
-      <Persons peopleToShow={peopleToShow} />
+      <Persons
+        peopleToShow={peopleToShow}
+        handleDelete={handleDelete}
+      />
     </div>
   );
 }

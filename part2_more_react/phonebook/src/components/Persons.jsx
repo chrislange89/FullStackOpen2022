@@ -1,15 +1,12 @@
 import React from 'react';
+import Person from './Person';
 
-function Persons({ peopleToShow }) {
+function Persons({ peopleToShow, handleDelete }) {
   return (
     <div>
       <ul>
-        {peopleToShow.map((person) => (
-          <li key={person.id}>
-            {person.name}
-            {' - '}
-            {person.number}
-          </li>
+        {peopleToShow.map((who) => (
+          <Person key={who.id} person={who} handleDelete={handleDelete} />
         ))}
       </ul>
     </div>

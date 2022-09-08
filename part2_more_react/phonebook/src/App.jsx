@@ -5,18 +5,39 @@ import personsService from './services/personsService';
 import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 import Persons from './components/Persons';
+import Notification from './components/Notification';
+import Error from './components/Error';
+
+const messageTimeout = 4000;
 
 function App() {
   const [searchValue, setSearchValue] = useState('');
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
+  const [message, setMessage] = useState(null);
+  const [error, setError] = useState(null);
+
+  const createMessage = (messageString) => {
+    setMessage(messageString);
+    setTimeout(() => {
+      setMessage(null);
+    }, messageTimeout);
+  };
+
+  const createError = (errorString) => {
+    setError(errorString);
+    setTimeout(() => {
+      setError(null);
+    }, messageTimeout);
+  };
 
   const loadPeople = () => {
     personsService.getAll().then((res) => {
       const loadedPersons = res.data;
       setPersons(loadedPersons);
     });
+    createMessage('Loaded phonebook');
   };
 
   const clearAddFields = () => {
@@ -37,8 +58,15 @@ function App() {
   };
 
   const handleDelete = (event) => {
-    setPersons(persons.filter((person) => person.id !== event.target.id));
-    personsService.deletePerson(event.target.id);
+    const personToDelete = persons.find((person) => person.id === event.target.id);
+    personsService.deletePerson(personToDelete.id).then((res) => {
+      console.log(res);
+      setPersons(persons.filter((person) => person.id !== personToDelete.id));
+      createMessage(`${res.status}: Successfully deleted the person with the name '${personToDelete.name}' and id '${personToDelete.id}'`);
+    }).catch((err) => {
+      createError(`Error ${err.code} ${err.response.status} - The person with the name ${personToDelete.name} was already deleted`);
+      setPersons(persons.filter((person) => person.id !== personToDelete.id));
+    });
   };
 
   const handleAddNewName = (event) => {
@@ -57,12 +85,12 @@ function App() {
     }
 
     if (newName === '') {
-      alert('You must enter a name!');
+      createError('You must enter a name!');
       return;
     }
 
     if (newNumber === '') {
-      alert('You must enter a number!');
+      createError('You must enter a number!');
       return;
     }
 
@@ -75,11 +103,8 @@ function App() {
     personsService.create(newPerson)
       .then((res) => {
         setPersons(persons.concat(res.data));
-      })
-      .catch((err) => {
-        console.error(err);
+        createMessage(`'${newPerson.name}' was created with phone number '${newPerson.number}' & id '${newPerson.id}'`);
       });
-
     clearAddFields();
   };
 
@@ -94,6 +119,8 @@ function App() {
         searchValue={searchValue}
         handleSearchChange={handleSearchChange}
       />
+      <Notification message={message} />
+      <Error message={error} />
       <h3>add a new</h3>
       <PersonForm
         newName={newName}

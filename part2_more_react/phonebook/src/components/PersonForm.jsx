@@ -10,11 +10,11 @@ function PersonForm({
   return (
     <form>
       <div>
-        name:
+        {'name: '}
         <input value={newName} onChange={handleNameChange} />
       </div>
       <div>
-        number:
+        {'number: '}
         <input value={newNumber} onChange={handleNumberChange} />
       </div>
       <div>

@@ -19,7 +19,7 @@ module.exports = {
   ],
   rules: {
     'linebreak-style': ['off', 'windows'],
-    'react/prop-types': ['off'],
+    'react/prop-types': 'off',
     'max-len': ['warn', '150'],
   },
 };

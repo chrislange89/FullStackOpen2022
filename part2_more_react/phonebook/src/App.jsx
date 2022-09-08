@@ -13,6 +13,18 @@ function App() {
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
 
+  const loadPeople = () => {
+    axios.get('http://localhost:3001/persons').then((res) => {
+      const loadedPersons = res.data;
+      setPersons(loadedPersons);
+    });
+  };
+
+  const clearAddFields = () => {
+    setNewName('');
+    setNewNumber('');
+  };
+
   const handleSearchChange = (event) => {
     setSearchValue(event.target.value);
   };
@@ -32,10 +44,17 @@ function App() {
 
   const handleAddNewName = (event) => {
     event.preventDefault();
-    const nameExists = persons.find((person) => person.name === newName);
+    const nameExists = persons.find((person) => person.name.toLowerCase() === newName.toLowerCase());
 
     if (nameExists) {
-      alert(`Cannot add ${newName}, this person already exists!`);
+      const replaceNumber = window.confirm(`${newName} already exists, replace the old number with a new one?`);
+      if (replaceNumber && newNumber !== '' && newNumber !== null) {
+        const existingPerson = persons.find((person) => person.name.toLowerCase() === newName.toLowerCase());
+        const newPerson = { ...existingPerson, number: newNumber };
+        personsService.update(existingPerson.id, newPerson);
+        clearAddFields();
+        loadPeople();
+      }
       return;
     }
 
@@ -63,18 +82,12 @@ function App() {
         console.error(err);
       });
 
-    setNewName('');
-    setNewNumber('');
+    clearAddFields();
   };
 
   const peopleToShow = persons.filter((person) => person.name.toLowerCase().includes(searchValue.toLowerCase()));
 
-  useEffect(() => {
-    axios.get('http://localhost:3001/persons').then((res) => {
-      const loadedPersons = res.data;
-      setPersons(loadedPersons);
-    });
-  }, []);
+  useEffect(loadPeople, []);
 
   return (
     <div>

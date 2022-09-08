@@ -35,6 +35,7 @@ function Country({ country }) {
             );
           })}
         </ul>
+        <img style={{ border: "1px solid gray" }}height="100px" src={country.flags.png} />
       </div>
     </div>
   );

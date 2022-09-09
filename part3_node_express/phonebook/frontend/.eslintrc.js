@@ -1,0 +1,27 @@
+module.exports = {
+  env: {
+    browser: true,
+    es2021: true,
+  },
+  extends: [
+    'plugin:react/recommended',
+    'airbnb',
+  ],
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+  },
+  plugins: [
+    'react',
+  ],
+  rules: {
+    'linebreak-style': ['off', 'windows'],
+    'react/prop-types': 'off',
+    'max-len': ['warn', 150],
+    'no-alert': 'off',
+    'no-console': 'off',
+  },
+};

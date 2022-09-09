@@ -63,9 +63,31 @@ app.delete('/api/persons/:id', (req, res) => {
 })
 
 app.post('/api/persons/', (req, res) => {
+  let newName = req.body.name;
+  let newNumber = req.body.number;
+  let existingPerson = personsData.find(person => person.name === newName);
+
+  // person already exists
+  if (existingPerson) {
+    res.status(403).json({error: 'this person already exists'});
+    return;
+  }
+
+  // no name field included in the request body
+  if (newName === '' || newName === undefined || newName === null) {
+    res.status(400).json({error: 'you must include a name'});
+    return;
+  }
+
+  // no number field included in the request body
+  if (newNumber === '' || newNumber === undefined || newNumber === null) {
+    res.status(400).json({error: 'you must include a number'});
+    return;
+  }
+
   let newPerson = {
-    name: req.body.name,
-    number: req.body.number,
+    name: newName,
+    number: newNumber,
     id: nanoid(),
   }
   personsData = personsData.concat(newPerson);

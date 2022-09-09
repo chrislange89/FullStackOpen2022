@@ -1,9 +1,10 @@
 import express from 'express';
 import { nanoid } from 'nanoid';
 import morgan from 'morgan';
+import cors from 'cors';
 
 const app = express();
-const port = 3001;
+const PORT = process.env.PORT || 3001;
 
 let personsData = 
   [
@@ -32,6 +33,7 @@ let personsData =
 const infoPage = `<div></div>`;
 
 app.use(express.json());
+app.use(cors());
 
 morgan.token('body', (req, res) => {return req.body === null || req.body === '' || req.body === undefined ? '' : JSON.stringify(req.body)});
 
@@ -104,6 +106,6 @@ app.get('/info', (req, res) => {
   res.send(`<div><p>Phonebook has info for ${personsData.length} people.</p><p>${todaysDate}</p></div>`);
 })
 
-app.listen(port, () => {
-  console.log(`App is listening on port ${port}`);
+app.listen(PORT, () => {
+  console.log(`App is listening on port ${PORT}`);
 });

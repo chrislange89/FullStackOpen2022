@@ -34,13 +34,14 @@ const infoPage = `<div></div>`;
 
 app.use(express.json());
 app.use(cors());
+app.use(express.static('build'));
 
 morgan.token('body', (req, res) => {return req.body === null || req.body === '' || req.body === undefined ? '' : JSON.stringify(req.body)});
 
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms - :body'));
 
 app.get('/', (req, res) => {
-  res.send('<div>Please go to /api/persons/</div>')
+  res.sendFile('./build/static/index.html');
 })
 
 app.get('/api/persons', (req, res) => {

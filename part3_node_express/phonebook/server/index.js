@@ -9,22 +9,22 @@ const PORT = process.env.PORT || 3001;
 let personsData = 
   [
     { 
-      "id": 1,
+      "id": '1',
       "name": "Arto Hellas", 
       "number": "040-123456"
     },
     { 
-      "id": 2,
+      "id": '2',
       "name": "Ada Lovelace", 
       "number": "39-44-5323523"
     },
     { 
-      "id": 3,
+      "id": '3',
       "name": "Dan Abramov", 
       "number": "12-43-234345"
     },
     { 
-      "id": 4,
+      "id": '4',
       "name": "Mary Poppendieck", 
       "number": "39-23-6423122"
     }
@@ -48,7 +48,7 @@ app.get('/api/persons', (req, res) => {
 })
 
 app.get('/api/persons/:id', (req, res) => {
-  const id = Number(req.params.id);
+  const id = req.params.id;
   const foundPerson = personsData.find(person => person.id === id);
   if (foundPerson) {
     res.status(200).json(foundPerson);
@@ -58,7 +58,7 @@ app.get('/api/persons/:id', (req, res) => {
 })
 
 app.delete('/api/persons/:id', (req, res) => {
-  const id = Number(req.params.id);
+  const id = req.params.id;
   const personToDelete = personsData.find(person => person.id === id);
   if (personToDelete) {
     let newPersons = personsData.filter(person => person.id !== id);
@@ -66,6 +66,19 @@ app.delete('/api/persons/:id', (req, res) => {
     res.status(204).json(personToDelete);
   } else {
     res.status(404).json({error: `Nothing with id ${id} exists`})
+  }
+})
+
+app.put('/api/persons/:id', (req, res) => {
+  const id = req.params.id;
+  const newNumber = req.body.number;
+  const existingPerson = personsData.find(person => person.id === id);
+  if (existingPerson) {
+    let updatedPerson = { ...existingPerson, number: newNumber };
+    personsData = personsData.map((person) => person.id !== id ? person : updatedPerson);
+    res.status(200).json(updatedPerson);
+  } else {
+    res.status(404).json({error: 'person does not exist'})
   }
 })
 

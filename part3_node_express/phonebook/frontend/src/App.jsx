@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { nanoid } from 'nanoid';
 
 import personsService from './services/personsService';
 import Filter from './components/Filter';
@@ -62,11 +61,10 @@ function App() {
     const confirmDelete = window.confirm(`Are you sure you want to delete ${personToDelete.name}?`);
     if (confirmDelete) {
       personsService.deletePerson(personToDelete.id).then((res) => {
-        console.log(res);
         setPersons(persons.filter((person) => person.id !== personToDelete.id));
         createMessage(`${res.status}: Successfully deleted the person with the name '${personToDelete.name}' and id '${personToDelete.id}'`);
       }).catch((err) => {
-        createError(`Error ${err.code} ${err.response.status} - The person with the name ${personToDelete.name} was already deleted`);
+        createError(`${err.response.status} - The person with the name ${personToDelete.name} was already deleted`);
         setPersons(persons.filter((person) => person.id !== personToDelete.id));
       });
     }
@@ -79,7 +77,11 @@ function App() {
       const replaceNumber = window.confirm(`${newName} already exists, replace the old number with a new one?`);
       if (replaceNumber && newNumber !== '' && newNumber !== null) {
         const newPerson = { ...existingPerson, number: newNumber };
-        personsService.update(existingPerson.id, newPerson);
+        personsService.update(existingPerson.id, newPerson).then((res) => {
+          const changedPerson = res.data;
+          const changedPeople = persons.map((person) => (person.id !== changedPerson.id ? person : changedPerson));
+          setPersons(changedPeople);
+        });
         clearAddFields();
         loadPeople();
       }
@@ -99,7 +101,6 @@ function App() {
     const newPerson = {
       name: newName,
       number: newNumber,
-      id: nanoid(),
     };
 
     personsService.create(newPerson)

@@ -1,5 +1,6 @@
 import express from 'express';
 import { nanoid } from 'nanoid';
+import morgan from 'morgan';
 
 const app = express();
 const port = 3001;
@@ -31,6 +32,10 @@ let personsData =
 const infoPage = `<div></div>`;
 
 app.use(express.json());
+
+morgan.token('body', (req, res) => {return req.body === null || req.body === '' || req.body === undefined ? '' : JSON.stringify(req.body)});
+
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms - :body'));
 
 app.get('/', (req, res) => {
   res.send('<div>Please go to /api/persons/</div>')

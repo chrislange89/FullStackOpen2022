@@ -1,0 +1,21 @@
+{
+  "name": "phonebook_backend",
+  "type": "module",
+  "version": "0.0.1",
+  "description": "backend for the fullstack open course phonebook excersizes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1",
+    "nanoid": "^4.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  }
+}

@@ -36,7 +36,6 @@ function App() {
       const loadedPersons = res.data;
       setPersons(loadedPersons);
     });
-    createMessage('Loaded phonebook');
   };
 
   const clearAddFields = () => {

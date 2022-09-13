@@ -2,6 +2,7 @@ import express from 'express';
 import { nanoid } from 'nanoid';
 import morgan from 'morgan';
 import cors from 'cors';
+import path from 'path';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -34,7 +35,7 @@ const infoPage = `<div></div>`;
 
 app.use(express.json());
 app.use(cors());
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname + '/public')));
 
 morgan.token('body', (req, res) => {return req.body === null || req.body === '' || req.body === undefined ? '' : JSON.stringify(req.body)});
 

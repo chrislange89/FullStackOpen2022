@@ -34,7 +34,7 @@ const infoPage = `<div></div>`;
 
 app.use(express.json());
 app.use(cors());
-app.use(express.static('build'));
+app.use(express.static('public'));
 
 morgan.token('body', (req, res) => {return req.body === null || req.body === '' || req.body === undefined ? '' : JSON.stringify(req.body)});
 
